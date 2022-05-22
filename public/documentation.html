@@ -8,6 +8,111 @@
 </head>
 
 <body>
+  <table class="documentation-table">
+    <thead>
+      <tr>
+        <th>Business Logic<th>
+        <th>URL</th>
+        <th>Query Parameters</th>
+        <th>HTTP method</th>
+        <th>Request body data format</th>
+        <th>Response body data format</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Returns a list of all documentaries to user</td>
+        <td>/documentaries</td>
+        <td>none</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td>Returns data about a single documentary title to user</td>
+        <td>/documentaries</td>
+        <td>:title</td>
+        <td>GET</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <td>Returns data about a genre by title</td>
+      <td>/documentaries/genre/</td>
+      <td>:genreName</td>
+      <td>GET</td>
+      <td>none</td>
+      <td>none</td>
+    </tr>
+    <tr>
+      <td>Returns data about a director by name</td>
+      <td>/documentaries/directors/</td>
+      <td>:directorName</td>
+      <td>GET</td>
+      <td>none</td>
+      <td>none</td>
+    </tr>
+    <tr>
+      <td>Allows new users to register</td>
+      <td>/users/</td>
+      <td>:directorName</td>
+      <td>POST</td>
+      <td>A JSON object holding data about the user to add, structured like:<br>
+        {<br>
+          name: "Bob",<br>
+          favoriteDocus: []<br>
+        }<br>
+      </td>
+      <td>A JSON object holding data about the new user that was added,
+        including an id, structured like:
+        {
+          id: 1,
+          name: "Bob",
+          favoriteDocus: []
+        },
+      </td>
+    </tr>
+    <tr>
+      <td>Allows users to update their information</td>
+      <td>/users/</td>
+      <td>:id</td>
+      <td>PUT</td>
+      <td>none</td>
+      <td>A message indicating that the information was successfully updated</td>
+    </tr>
+    <tr>
+      <td>Allows users to add a documentary to their list of favorites</td>
+      <td>/users/</td>
+      <td>:id</td>
+      <td>POST</td>
+      <td> A JSON object holding data about the user with the empty favorite
+        documentary field to add, structured like:<br>
+        { <br>
+          id: 1,<br>
+          name: "Bob",<br>
+          favoriteDocus: []<br>
+        }<br>
+      </td>
+      <td>A text message indicating that the documentary was successfully added</td>
+    </tr>
+    <tr>
+      <td>Allows users to remove a documentary to their list of favorites</td>
+      <td>/users/</td>
+      <td>:id</td>
+      <td>DELETE</td>
+      <td>none</td>
+      <td>A text message indicating that the documentary was successfully removed</td>
+    </tr>
+    <tr>
+      <td>Allows users to deregister</td>
+      <td>/users/</td>
+      <td>:id</td>
+      <td>DELETE</td>
+      <td>none</td>
+      <td>A text message indicating that the user was removed successfully</td>
+    </tr>
+    </tbody>
+  </table>
+
 </body>
 
 </html>
