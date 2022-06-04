@@ -26,7 +26,7 @@
         <td>none</td>
         <td>GET</td>
         <td>none</td>
-        <td>none</td>
+        <td>A JSON object holding data about all movies</td>
       </tr>
       <tr>
         <td>Returns data about a single documentary title to user</td>
@@ -40,74 +40,134 @@
       <td>/documentaries/genre/</td>
       <td>:genreName</td>
       <td>GET</td>
-      <td>none</td>
-      <td>none</td>
+      <td>Example request URL:<br>
+        genre/Environment</td>
+      <td>"Genre" : {<br>
+        		"Name" : "Environment",<br>
+        		"Description" : "Environmental documentaries, portray the reality of
+            environmental issues in an educational and entertaining manner, while
+            empowering audiences to become an active part of the change necessary
+            to address environmental crises."<br>
+        	},<br>
+        	  "ImagePath" : "https://www.imdb.com/title/tt2004304/mediaviewer/rm1249886976/?ref_=tt_ov_i",<br>
+        	  "Featured" : true<br>
+      </td>
     </tr>
     <tr>
-      <td>Returns data about a director by name</td>
-      <td>/documentaries/directors/</td>
-      <td>:directorName</td>
+      <td>Returns data about a featured personality by name</td>
+      <td>/documentaries/featuredPersonality/</td>
+      <td>:personalityName</td>
       <td>GET</td>
-      <td>none</td>
-      <td>none</td>
+      <td>Example request URL:<br>
+        documentaries/David%Attenborough</td>
+      <td>JSON object holding data of featured personality.<br>
+        Example response:<br>
+        "FeaturedPersonality" : {<br>
+    		"Name" : "Ali Tabrizi",<br>
+    		"Birth" : "1993",<br>
+    		"Biography" : "Ali Tabrizi is a British filmmaker, environmentalist, and
+        narrator best known for his debut documentary Seaspiracy.Tabrizi turned
+        down an offer to study film at university, and taught himself.
+        He made Seaspiracy with Kip Andersen as a producer.
+        Together with his wife Lucy Tabrizi, he founded Disrupt Studios,
+        which is the company through which they distribute their documentaries
+        and a podcast about the environment."<br>
+    	},
+      </td>
     </tr>
     <tr>
       <td>Allows new users to register</td>
       <td>/users/</td>
-      <td>:directorName</td>
+      <td>none</td>
       <td>POST</td>
-      <td>A JSON object holding data about the user to add, structured like:<br>
-        {<br>
-          name: "Bob",<br>
-          favoriteDocus: []<br>
-        }<br>
+      <td>A JSON object holding data about the user to add<br>
+          Example request:<br>
+        {
+        	"Username" : "sarayassin",<br>
+        	"Password" : "mypassy999",<br>
+        	"Email" : "sarayassin98@yahoo.com",<br>
+        	"Birth" : ISODate("1960-05-20T00:00:00Z"),<br>
+        	"FavoriteDocumentaries" : [<br>
+        		ObjectId("629126cc95c28cf265b2c2b0")<br>
+        	]<br>
+        }
       </td>
       <td>A JSON object holding data about the new user that was added,
-        including an id, structured like:
-        {
-          id: 1,
-          name: "Bob",
-          favoriteDocus: []
-        },
+        including an id<br>
+        Example response:<br>
+      {
+        "_id" : ObjectId("6291307195c28cf265b2c2b9"),<br>
+        "Username" : "sarayassin",<br>
+        "Password" : "mypassy999",<br>
+        "Email" : "sarayassin98@yahoo.com",<br>
+        "Birth" : ISODate("1960-05-20T00:00:00Z"),<br>
+        "FavoriteDocumentaries" : [<br>
+          ObjectId("629126cc95c28cf265b2c2b0")<br>
+        ]<br>
+      }
       </td>
     </tr>
     <tr>
       <td>Allows users to update their information</td>
       <td>/users/</td>
-      <td>:id</td>
+      <td>:Username/updateProfile</td>
       <td>PUT</td>
-      <td>none</td>
-      <td>A message indicating that the information was successfully updated</td>
+      <td>Example request URL:<br>
+        users/:David%Cohen/updateProfile</td>
+      <td>A JSON object holding updated profile information<br>
+        Example response: <br>
+        "_id" : ObjectId("6291307195c28cf265b2c2b9"),<br>
+        "Username" : "sarayassin",<br>
+        "Password" : "mypassy999",<br>
+        "Email" : "sarayassin98@yahoo.com",<br>
+        "Birth" : ISODate("1960-05-20T00:00:00Z"),<br>
+       </td>
     </tr>
     <tr>
       <td>Allows users to add a documentary to their list of favorites</td>
       <td>/users/</td>
-      <td>:id</td>
+      <td>:Username/documentaries/:DocumentaryID/add</td>
       <td>POST</td>
-      <td> A JSON object holding data about the user with the empty favorite
-        documentary field to add, structured like:<br>
-        { <br>
-          id: 1,<br>
-          name: "Bob",<br>
-          favoriteDocus: []<br>
-        }<br>
+      <td> A JSON object holding data about the current user with current favorite documentaries<br>
+          Example request:<br>
+          "_id" : ObjectId("6291307195c28cf265b2c2b9"),<br>
+          "Username" : "sarayassin",<br>
+          "Password" : "mypassy999",<br>
+          "Email" : "sarayassin98@yahoo.com",<br>
+          "Birth" : ISODate("1960-05-20T00:00:00Z"),<br>
+          "FavoriteDocus" : [<br>
+            ObjectId("629126cc95c28cf265b2c2b0")
+        <br>
       </td>
-      <td>A text message indicating that the documentary was successfully added</td>
+      <td> A JSON object holding data about the current user with updated favorite documentaries<br>
+          Example request:<br>
+          "_id" : ObjectId("6291307195c28cf265b2c2b9"),<br>
+          "Username" : "sarayassin",<br>
+          "Password" : "mypassy999",<br>
+          "Email" : "sarayassin98@yahoo.com",<br>
+          "Birth" : ISODate("1960-05-20T00:00:00Z"),<br>
+          "FavoriteDocus" : [<br>
+            ObjectId("6291272395c28cf265b2c2b1")
+      </td>
     </tr>
     <tr>
       <td>Allows users to remove a documentary to their list of favorites</td>
       <td>/users/</td>
-      <td>:id</td>
+      <td>:Username/documentaries/:DocumentaryID/delete</td>
       <td>DELETE</td>
-      <td>none</td>
-      <td>A text message indicating that the documentary was successfully removed</td>
+      <td>Example request URL:<br>
+        users/docus/6291272395c28cf265b2c2b1/delete</td>
+      <td>A text message indicating that the documentary was successfully removed &
+          JSON object with updated profile.
+      </td>
     </tr>
     <tr>
       <td>Allows users to deregister</td>
       <td>/users/</td>
-      <td>:id</td>
+      <td>:Username/delete</td>
       <td>DELETE</td>
-      <td>none</td>
+      <td>Example request URL:<br>
+        users/davidcohen25/delete</td>
       <td>A text message indicating that the user was removed successfully</td>
     </tr>
     </tbody>
