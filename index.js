@@ -8,8 +8,7 @@ const express = require('express'),
       Models = require('./models.js'),
       Documentaries = Models.Documentary,
       Users = Models.User,
-      Genres = Models.Genre,
-      FeaturedPersonalities = Models.FeaturedPersonalities,
+      //FeaturedPersonalities = Models.FeaturedPersonalities,//
       passport = require('passport');
       require('./passport');
 
@@ -53,18 +52,19 @@ app.get('/users', passport.authenticate('jwt', { session: false}), function (req
 //CREATE
 //Allows new users to register
 
-app.post('/users', passport.authenticate('jwt', { session: false}), (req, res) => {
-  Users.findOne({ Username: req.query.Username })
+app.post('/users', (req, res) => {
+  console.log(req.body)
+  Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.query.Username + 'already exists');
+        return res.status(400).send(req.body.Username + 'already exists');
       } else {
         Users
           .create({
-            Username: req.query.Username,
-            Password: req.query.Password,
-            Email: req.query.Email,
-            Birthday: req.query.Birthday,
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday,
             FavoriteDocumentaries: req.params.FavoriteDocus
           })
           .then((user) =>{res.status(201).json(user) })
@@ -164,8 +164,8 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
 //Return a list of all documentaries to users
 app.get('/documentaries', passport.authenticate('jwt', { session: false }), (req, res) => {
   Documentaries.find()
-  .then((docus) => {
-    res.status(201).json(docus);
+  .then((documentaries) => {
+    res.status(201).json(documentaries);
   })
   .catch((err) => {
     console.error(err);
@@ -174,10 +174,10 @@ app.get('/documentaries', passport.authenticate('jwt', { session: false }), (req
 });
 
 //Returns data about single documentary by title to user
-app.get('/documentaries/:title', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/documentaries/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
   Documentaries.findOne({Title: req.params.Title})
-    .then((docu) => {
-      res.json(docu);
+    .then((documentary) => {
+      res.json(documentary);
     })
     .catch((err) => {
       console.error(err);
@@ -187,8 +187,8 @@ app.get('/documentaries/:title', passport.authenticate('jwt', {session: false}),
 
 //READ
 //Return data about genre by main title
-app.get('/documentaries/genre/:genreName', passport.authenticate('jwt', {session: false}), (req, res) => {
-  Genres.findOne({Name: req.params.Name})
+app.get('/documentaries/genre/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
+  Documentaries.findOne({'Genre.Name': req.params.Name})
     .then((genre) => {
       res.json(genre.Description);
     })
@@ -200,10 +200,10 @@ app.get('/documentaries/genre/:genreName', passport.authenticate('jwt', {session
 
 //READ
 //Return data about a featured personality by name
-app.get('/documentaries/featuredPersonality/:personalityName', passport.authenticate('jwt', { session: false}), (req, res) => {
-  FeaturedPersonalities.findOne({Name: req.params.Name})
-    .then((featuredPersonality) => {
-      res.json(featuredPersonality);
+app.get('/documentaries/featuredPersonalities/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
+  Documentaries.findOne({'FeaturedPersonality.Name': req.params.Name})
+    .then((documentary) => {
+      res.json(documentary.FeaturedPersonality);
     })
     .catch((err) => {
       console.error(err);
