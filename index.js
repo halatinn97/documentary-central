@@ -87,10 +87,10 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false}),(req
     {Username: req.params.Username},
     {
       $set: {
-        Username: req.query.Username,
-        Password: req.query.Password,
-        Email: req.query.Email,
-        Birthday: req.query.Birthday,
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
         FavoriteDocumentaries: req.params.FavoriteDocus
       },
     },
