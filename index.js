@@ -7,10 +7,7 @@ const express = require('express'),
       mongoose = require('mongoose'),
       Models = require('./models.js'),
       Documentaries = Models.Documentary,
-      Users = Models.User,
-      //FeaturedPersonalities = Models.FeaturedPersonalities,//
-      passport = require('passport');
-      require('./passport');
+      Users = Models.User;
 
 
 mongoose.connect('mongodb://localhost:27017/movieAppDB', {
@@ -23,7 +20,20 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('common'));
 app.use(express.static('public'));
 
+
+//Authorization, validation
+
+const cors = require('cors');
+
+app.use(cors());
+
+const passport = require('passport');
+require('./passport');
+
 let auth = require('./auth')(app);
+
+const { check, validationResult } = require('express-validator');
+
 
 //CREATE
 //Titles for index & documentation page
@@ -52,8 +62,24 @@ app.get('/users', passport.authenticate('jwt', { session: false}), function (req
 //CREATE
 //Allows new users to register
 
-app.post('/users', (req, res) => {
-  console.log(req.body)
+app.post('/users',
+[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
+
+// Checks validation object for errors
+   let errors = validationResult(req);
+
+   if (!errors.isEmpty()) {
+     return res.status(422).json({ errors: errors.array() });
+   }
+
+  let hashedPassword = Users.hashPassword(req.body.Password);
+
+// Searches to see if  user with requested username already exists
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -62,7 +88,7 @@ app.post('/users', (req, res) => {
         Users
           .create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday,
             FavoriteDocumentaries: req.params.FavoriteDocus
@@ -82,7 +108,20 @@ app.post('/users', (req, res) => {
 
 //UPDATE endpoint
 //Allow users to update info
-app.put('/users/:Username', passport.authenticate('jwt', { session: false}),(req, res) => {
+app.put('/users/:Username',
+[
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail(),
+], passport.authenticate('jwt', { session: false}), (req, res) => {
+
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
   Users.findOneAndUpdate(
     {Username: req.params.Username},
     {
