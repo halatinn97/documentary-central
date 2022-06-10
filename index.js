@@ -10,10 +10,21 @@ const express = require('express'),
       Users = Models.User;
 
 
+/*
+//Local database
 mongoose.connect('mongodb://localhost:27017/movieAppDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+*/
+
+//Online database
+
+mongoose.connect('process.env.CONNECTION_URI', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
