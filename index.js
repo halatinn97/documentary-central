@@ -48,6 +48,7 @@ const { check, validationResult } = require('express-validator');
 
 //CREATE
 //Titles for index & documentation page
+
 app.get('/', (req,res) => {
   res.send('What is your favorite movie?');
 });
@@ -91,6 +92,7 @@ app.post('/users',
   let hashedPassword = Users.hashPassword(req.body.Password);
 
 // Searches to see if  user with requested username already exists
+
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -119,6 +121,7 @@ app.post('/users',
 
 //UPDATE endpoint
 //Allow users to update info
+
 app.put('/users/:Username',
 [
   check('Username', 'Username is required').isLength({min: 5}),
@@ -159,6 +162,7 @@ app.put('/users/:Username',
 
 //CREATE
 //Allows user to add a documentary to list of favorite
+
 app.post('/users/:Username/documentaries/:DocumentaryID', passport.authenticate('jwt', { session: false}), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { FavoriteDocumentaries: req.params.DocuID }
@@ -177,6 +181,7 @@ app.post('/users/:Username/documentaries/:DocumentaryID', passport.authenticate(
 
 //DELETE
 //Allows user to remove documentary from their list of favorites
+
  app.delete("/users/:Username/documentaries/:DocumentaryID", (req, res) => {
    Users.findOneAndUpdate({ Username: req.params.Username }, {
      $pull: { FavoriteDocumentaries: req.params.DocuID }
@@ -194,6 +199,7 @@ app.post('/users/:Username/documentaries/:DocumentaryID', passport.authenticate(
 
 //DELETE
 //Allows user to deregister
+
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), (req, res) => {
   Users.findOneAndRemove({Username: req.params.Username})
     .then((user) => {
@@ -237,6 +243,7 @@ app.get('/documentaries/:Title', passport.authenticate('jwt', {session: false}),
 
 //READ
 //Return data about genre by main title
+
 app.get('/documentaries/genre/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
   Documentaries.findOne({'Genre.Name': req.params.Name})
     .then((genre) => {
@@ -250,6 +257,7 @@ app.get('/documentaries/genre/:Name', passport.authenticate('jwt', {session: fal
 
 //READ
 //Return data about a featured personality by name
+
 app.get('/documentaries/featuredPersonalities/:Name', passport.authenticate('jwt', { session: false}), (req, res) => {
   Documentaries.findOne({'FeaturedPersonality.Name': req.params.Name})
     .then((documentary) => {
@@ -273,6 +281,7 @@ app.use((err, req, res, next) => {
 
 
 //Start server
+
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
