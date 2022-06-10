@@ -182,7 +182,7 @@ app.post('/users/:Username/documentaries/:DocumentaryID', passport.authenticate(
 //DELETE
 //Allows user to remove documentary from their list of favorites
 
- app.delete("/users/:Username/documentaries/:DocumentaryID", (req, res) => {
+ app.delete("/users/:Username/documentaries/:DocumentaryID", passport.authenticate('jwt', { session: false}), (req, res) => {
    Users.findOneAndUpdate({ Username: req.params.Username }, {
      $pull: { FavoriteDocumentaries: req.params.DocuID }
    },
