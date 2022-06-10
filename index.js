@@ -48,12 +48,12 @@ const { check, validationResult } = require('express-validator');
 
 //CREATE
 //Titles for index & documentation page
-app.get('/', passport.authenticate('jwt', { session: false}), (req,res) => {
+app.get('/', (req,res) => {
   res.send('What is your favorite movie?');
 });
 
 
-app.get('/documentation', passport.authenticate('jwt', { session: false}), (req, res) => {
+app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', {root: __dirname});
 });
 
