@@ -1,4 +1,6 @@
 
+const dotenv = require('dotenv');
+      dotenv.config();
 const express = require('express'),
       app = express(),
       morgan = require('morgan'),
@@ -8,6 +10,7 @@ const express = require('express'),
       Models = require('./models.js'),
       Documentaries = Models.Documentary,
       Users = Models.User;
+
 
 
 /*
