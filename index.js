@@ -104,7 +104,6 @@ app.post('/users',
             Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday,
-            FavoriteDocumentaries: req.params.FavoriteDocus
           })
           .then((user) =>{res.status(201).json(user) })
         .catch((error) => {
@@ -144,7 +143,6 @@ app.put('/users/:Username',
         Password: req.body.Password,
         Email: req.body.Email,
         Birthday: req.body.Birthday,
-        FavoriteDocumentaries: req.params.FavoriteDocus
       },
     },
     {new: true},
@@ -165,7 +163,7 @@ app.put('/users/:Username',
 
 app.post('/users/:Username/documentaries/:DocumentaryID', passport.authenticate('jwt', { session: false}), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $push: { FavoriteDocumentaries: req.params.DocuID }
+     $push: { FavoriteDocumentaries: req.params.DocumentaryID }
    },
    { new: true }, // This line makes sure that the updated document is returned
   (err, updatedUser) => {
@@ -184,7 +182,7 @@ app.post('/users/:Username/documentaries/:DocumentaryID', passport.authenticate(
 
  app.delete("/users/:Username/documentaries/:DocumentaryID", passport.authenticate('jwt', { session: false}), (req, res) => {
    Users.findOneAndUpdate({ Username: req.params.Username }, {
-     $pull: { FavoriteDocumentaries: req.params.DocuID }
+     $pull: { FavoriteDocumentaries: req.params.DocumentaryID }
    },
    { new: true },
    (err, updatedUser) => {
