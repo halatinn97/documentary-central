@@ -1,5 +1,3 @@
-# node-movie-api
-
 # Documentary-Central
 
 The full-stack web application will provide users with access to information about different documentaries (movies & series), featured personalities, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite documentaries.
