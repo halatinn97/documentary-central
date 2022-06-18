@@ -16,7 +16,7 @@ The full-stack web application will provide users with access to information abo
   ### Client-side:
   - React / JavaScript
   - HTML
-  - CSS
+  - SCSS
 
 ### How to get the project running:
 
