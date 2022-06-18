@@ -1,5 +1,7 @@
 # Documentary-Central
 
+(Client-side continued in repository: https://github.com/halatinn97/documentary-central-client)
+
 The full-stack web application will provide users with access to information about different documentaries (movies & series), featured personalities, and genres. Users will be able to sign up, update their personal information, and create a list of their favorite documentaries.
 
 ### Technologies used:
@@ -18,7 +20,7 @@ The full-stack web application will provide users with access to information abo
 
 ### How to get the project running:
 
-Visit website here: [https://github.com/halatinn97/pokemon-js-app/deployments](https://documentary-central.herokuapp.com/)
+Visit website here: https://documentary-central.herokuapp.com
 
 The website works in all major browsers: Chrome, Firefox, Safari, Microsoft Edge
 
