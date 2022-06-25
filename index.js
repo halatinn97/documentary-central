@@ -219,7 +219,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
 
 //READ
 //Return a list of all documentaries to users
-app.get('/documentaries', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/documentaries', /*passport.authenticate('jwt', { session: false }),*/ (req, res) => {
   Documentaries.find()
   .then((documentaries) => {
     res.status(201).json(documentaries);
