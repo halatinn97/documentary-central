@@ -25,7 +25,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('common'));
 app.use(express.static('public'));
+
 //Authorization, validation
+
 const cors = require('cors');
 app.use(cors());
 const passport = require('passport');
@@ -176,7 +178,6 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
 
  //READ
  //Return a list of all documentaries to users
- app.get('/documentaries', passport.authenticate('jwt', { session: false }), (req, res) => {
  app.get('/documentaries', passport.authenticate('jwt', { session: false }), (req, res) => {
    Documentaries.find()
    .then((documentaries) => {
