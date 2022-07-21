@@ -54,6 +54,22 @@ app.get('/users', passport.authenticate('jwt', { session: false}), function (req
       res.status(500).send('Error: ' + err);
     })
 })
+
+//READ
+//Return user by username
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), function (req, res) {
+  Users.findOne({Username: req.params.Username})
+    .then(function(user) {
+      res.status(201).json(user);
+      })
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+
+
 //CREATE
 //Allows new users to register
 app.post('/users',
